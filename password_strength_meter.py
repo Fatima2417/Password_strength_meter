@@ -39,7 +39,7 @@ def get_strength_label(score):
     return labels[score], colors[score]
 
 # streamlit UI
-st.set_page_config(page_title="🔥 Password Strength Meter", layout="centered")
+st.set_page_config(page_title=" Password Strength Meter", layout="centered")
 
 st.markdown("""
     <style>
@@ -60,7 +60,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.title("🔐 Password Strength Meter")
+st.title(" Password Strength Meter")
 
 # input section for password to check its strength
 password = st.text_input("Enter your password:", type="password")
@@ -74,7 +74,7 @@ if password:
     st.progress(score / 4)
     
     if feedback:
-        st.write("🔍 **Suggestions to improve your password:**")
+        st.write("**Suggestions to improve your password:**")
         for tip in feedback:
             st.markdown(f"- {tip}")
     
@@ -83,6 +83,8 @@ if password:
 else:
     st.info("🔑 Start typing a password to check its strength!")
 
+
+
 st.markdown("""
 ### ✅ Password Strength Criteria:
 - At least **8 characters** long
@@ -90,6 +92,6 @@ st.markdown("""
 - Contains **numbers** and **special characters**
 """)
 # for slidebar
-st.sidebar.header("💡 About")
+st.sidebar.header(" About")
 st.sidebar.info("This app helps you test your password strength and provides tips to improve security to nextlevel.")
 
