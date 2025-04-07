@@ -1,97 +1,79 @@
-# importing libraries
 import streamlit as st
 import re
-import time
-import random
 from streamlit_extras.let_it_rain import rain
 
-# function for checking its strength
-def check_password_strength(password):
+# check password strength
+def evaluate_password(password):
     score = 0
-    feedback = []
-    
+    tips = []
+
     if len(password) >= 8:
         score += 1
     else:
-        feedback.append("Make your password at least 8 characters long.")
-    
-    if any(c.isupper() for c in password):
+        tips.append("Make it at least 8 characters.")
+
+    if any(char.isupper() for char in password):
         score += 1
     else:
-        feedback.append("Include at least one uppercase letter.")
-    
-    if any(c.isdigit() for c in password):
+        tips.append("Add an uppercase letter.")
+
+    if any(char.isdigit() for char in password):
         score += 1
     else:
-        feedback.append("Use at least one number.")
-    
+        tips.append("Add a number.")
+
     if re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
         score += 1
     else:
-        feedback.append("Add a special character (!@#$%^&* etc.)")
-    
-    return score, feedback
+        tips.append("Use a special character like @ or #.")
 
-# for labeling strength 
-def get_strength_label(score):
+    return score, tips
+
+# return strength label and color
+def get_feedback(score):
     labels = ["Very Weak", "Weak", "Moderate", "Strong", "Very Strong"]
-    colors = ["#FF4B4B", "#FF884B", "#FFC14B", "#4BFF88", "#4BFF4B"]
+    colors = ["#yellow", "#FF884B", "#FFC14B", "#4BFF88", "#4BFF4B"]
     return labels[score], colors[score]
 
-# streamlit UI
-st.set_page_config(page_title=" Password Strength Meter", layout="centered")
+# page setup
+st.set_page_config(page_title="Password Strength Checker", layout="centered")
 
-st.markdown("""
-    <style>
-        body {
-            background-color: #1E1E1E;
-            color: white;
-            font-family: 'Arial', sans-serif;
-        }
-        .password-box {
-            padding: 10px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.1);
-        }
-        .progress-bar {
-            height: 20px;
-            border-radius: 10px;
-        }
-    </style>
-""", unsafe_allow_html=True)
+st.title("Password Strength Checker")
 
-st.title(" Password Strength Meter")
-
-# input section for password to check its strength
+# user input
 password = st.text_input("Enter your password:", type="password")
 
 if password:
-    score, feedback = check_password_strength(password)
-    strength_label, color = get_strength_label(score)
-    
-    st.markdown(f"<div class='password-box' style='text-align:center; color:white; background-color:{color}; padding:10px; border-radius:10px; font-size:20px;'>{strength_label}</div>", unsafe_allow_html=True)
-    
+    score, tips = evaluate_password(password)
+    label, color = get_feedback(score)
+
+    st.markdown(
+        f"<div style='text-align:center; background-color:{color}; padding:10px; border-radius:10px; color:black; font-size:18px;'>{label}</div>",
+        unsafe_allow_html=True
+    )
+
     st.progress(score / 4)
-    
-    if feedback:
-        st.write("**Suggestions to improve your password:**")
-        for tip in feedback:
+
+    if tips:
+        st.write("Tips to make it stronger:")
+        for tip in tips:
             st.markdown(f"- {tip}")
-    
+
     if score == 4:
-        rain(emoji="🔒", font_size=30, falling_speed=5, animation_length="infinite")
+        rain(emoji="🔒", font_size=30, falling_speed=3, animation_length="infinite")
 else:
-    st.info("🔑 Start typing a password to check its strength!")
+    st.info("Type a password to check how strong it is.")
 
-
-
+# strength guide
 st.markdown("""
-### ✅ Password Strength Criteria:
-- At least **8 characters** long
-- Includes **uppercase & lowercase** letters
-- Contains **numbers** and **special characters**
+### ✅ What makes a strong password:
+- At least 8 characters
+- Uppercase and lowercase letters
+- Numbers
+- Special characters (like @, #, !)
 """)
-# for slidebar
-st.sidebar.header(" About")
-st.sidebar.info("This app helps you test your password strength and provides tips to improve security to nextlevel.")
+
+# sidebar
+st.sidebar.header("About")
+st.sidebar.info("This app checks how strong your password is and gives you tips to improve it.")
 
