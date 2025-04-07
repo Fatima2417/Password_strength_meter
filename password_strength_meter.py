@@ -32,7 +32,7 @@ def evaluate_password(password):
 # return strength label and color
 def get_feedback(score):
     labels = ["Very Weak", "Weak", "Moderate", "Strong", "Very Strong"]
-    colors = ["#yellow", "#FF884B", "#FFC14B", "#4BFF88", "#4BFF4B"]
+    colors = ["#yellow", "#orange", "#blue", "#red", "#green"]
     return labels[score], colors[score]
 
 # page setup
