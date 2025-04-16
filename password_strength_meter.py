@@ -47,7 +47,7 @@ if password:
     score, tips = evaluate_password(password)
     label, color = get_feedback(score)
     st.markdown(
-        f"<div style='text-align:center; background-color:#000000; padding:10px; border-radius:8px; font-size:18px; color:black;'>{label}</div>",
+        f"<div style='text-align:center; background-color:colors; padding:10px; border-radius:8px; font-size:18px; color:black;'>{label}</div>",
         unsafe_allow_html=True
     )
     st.progress(score / 4)
