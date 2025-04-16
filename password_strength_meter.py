@@ -64,7 +64,7 @@ else:
     st.info("Start typing a password to check its strength.")
 
 
-# password tips if passwors is not fully strong
+# password tips markdown
 st.markdown("""
 ### 🔑 Tips for a Strong Password:
 - Use at least 8 characters  
